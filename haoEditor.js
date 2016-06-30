@@ -60,14 +60,21 @@
 			haoEditor.append("<div contenteditable='true'></div>")
 		}
 
+		
 		function bindEvent(){
-			$(".toolbar a").click(function(){
-				var cammand = $(this).attr("class");
-				cammand = vars[cammand][0];
-				console.log(cammand);
+			$(".haoEditor .toolbar a").click(function(){
+				cammandOne($(this));
+			})
+		}
 
-				document.execCommand(cammand, false, false);
-			});
+		// 无下拉框的指令
+		function cammandOne(obj){
+				var command = obj.attr("class");
+				command = vars[command][0];
+				operation(command);
+		}
+		function operation(command,secondParam){
+			document.execCommand(command, false, secondParam);
 		}
 	}
 })(jQuery);
