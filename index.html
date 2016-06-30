@@ -3,20 +3,17 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TongEditer</title>
-	<link rel="stylesheet" type="text/css" href="css/haoEditer.css">
+	<title>haoEditor</title>
+	<link rel="stylesheet" type="text/css" href="css/haoEditor.css">
 	<script src="jquery.min.js" type="text/javascript"></script>
-	<script src="haoEditer.js" type="text/javascript"></script>
+	<script src="haoEditor.js" type="text/javascript"></script>
 </head>
 <body>
-	<div class="tongEditer">
-		<div class="toolbar">
-			<span><a href="javascript:void(0);" class="bold"><strong>B</strong></a></span>
-			<span><a href="javascript:void(0);" class="italic"><em>i</em></a></span>
-		</div>
-		<div class="textarea" contenteditable="true">
-			
-		</div>
-	</div>
+	<textarea name="textarea" id="test-hao"></textarea>
 </body>
+<script type="text/javascript">
+	$(function(){
+		$("#test-hao").haoEditor();
+	})
+</script>
 </html>
