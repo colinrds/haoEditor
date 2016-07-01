@@ -30,11 +30,12 @@
 .toolbar>div{
 	position: relative;
 }
-.toolbar .hao_formats { 
+.toolbar .toolBox { 
 	display: none;
 	position: absolute;
-
 }
+.toolbar .toolbuttons{ text-align:center; }
+.toolbar .toolbuttons input { margin: 5px 10px; }
 .toolbar .hao_formats>a{
 	display:block;
 	cursor: pointer;
