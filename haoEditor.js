@@ -51,7 +51,7 @@
 								tool_div.append(font_div);
 							break;
 						case "add_link":
-							var link_div = $("<div class='toolBox'></div>");
+							var link_div = $("<div class='toolBox setLink'></div>");
 								link_div.append("<input type='text' class='data' placeholder='请输入链接地址' value='http://'>");
 								link_div.append("<div class='toolbuttons'><input class='confirm' type='button' value='确定'><input class='cancel' type='button' value='取消'></div>");
 								tool_div.append(link_div);
@@ -75,6 +75,7 @@
 						$(this).next("div").slideToggle("fast");
 						break;
 					case "add_link":
+						setLink();
 						$(this).next("div").slideToggle("fast");
 						break;
 					default: 
@@ -83,10 +84,16 @@
 				}
 			});
 
-			$(".haoEditor .toolbar>div .confirm").click(function(){
+			$(".haoEditor .toolbar .setLink .confirm").click(function(){
 				var command = $(this).parents(".toolBox").prev("a").attr("class");
-				// cammandTwo($(this),command);
-				setLink();
+				var href = $(this).parent(".toolbuttons").prev("input");
+				$("a[hao-setlink]").attr("href",href.val()).removeAttr("hao-setlink");
+				href.val("http://");
+			});
+			$(".haoEditor .toolbar .setLink .cancel").click(function(){
+				$(this).parent(".toolbuttons").prev("input").val("http://");
+				var val = $("a[hao-setlink]").html();
+				$("a[hao-setlink]").replaceWith(val);
 			});
 
 			$(".haoEditor .toolbar .toolbuttons input").click(function() {
@@ -125,7 +132,23 @@
 			return selection;
 		}
 		function setLink(){
-
+			var selction = getSelection();
+			// Chrome
+			if(document.getSelection){
+				var range = selction.getRangeAt(0);
+				var content = range.extractContents();
+				var link = $("<a hao-setLink></a>");
+				link.append(content);
+				range.insertNode(link[0]);
+			}
+			//IE
+			else{
+				var range = selection.createRange();
+				var content = range.htmlText;
+				var link = $("<a hao-setLink></a>");
+				link.append(content);
+				range.pasteHTML(link);
+			}
 		}
 	}
 })(jQuery);
