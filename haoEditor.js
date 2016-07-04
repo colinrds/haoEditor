@@ -55,18 +55,23 @@
 					var tool_div = $("<div><a href='javascript:void(0);' class="+ key +"></a></div>")
 					switch (key) {
 						case "font_size":
-							var font_div = $("<div class='toolBox'></div>");
+								var font_div = $("<div class='toolBox'></div>");
 								$.each(fontSize,function(index, font) {
 									font_div.append("<a hao-param="+font[1]+"><font size="+font[1]+">"+ font[0] +"</font></a>")
 								});
 								tool_div.append(font_div);
 							break;
 						case "add_link":
-							var link_div = $("<div class='toolBox setLink'></div>");
+								var link_div = $("<div class='toolBox setLink'></div>");
 								link_div.append("<input type='text' class='data' placeholder='请输入链接地址' value='http://'>");
 								link_div.append("<div class='toolbuttons'><input class='confirm' type='button' value='确定'><input class='cancel' type='button' value='取消'></div>");
 								tool_div.append(link_div);
 							break;
+						case "add_img":
+								var img_div = $("<div class='toolBox setImg'></div>");
+								img_div.append("<input type='text' class='data' placeholder='请输入图片地址''>");
+								img_div.append("<div class='toolbuttons'><input class='confirm' type='button' value='确定'><input class='cancel' type='button' value='取消'></div>");
+								tool_div.append(img_div);
 					}
 					toolbar.append(tool_div);
 				}
@@ -82,32 +87,63 @@
 				var command = $(this).attr("class");
 				switch (command) {
 					case "font_size":
-						$(this).next("div").slideToggle("fast");
+							$(this).next("div").slideToggle("fast");
 						break;
 					case "add_link":
-						// setLink();
-						if(setLink() == false){
-							alert("未选中内容");
-							return false;
-						}
-						$(this).next("div").slideToggle("fast");
+							if(haoEditor.find('a[hao-setlink]').length > 0){
+								haoEditor.find(".toolbar .setLink .cancel").click();
+							}else{
+								$(this).next("div").slideToggle("fast");
+								if(setLink() == false){
+									alert("未选中内容");
+									return false;
+								}
+							}
+
+						break;
+					case "add_img":
+							if(haoEditor.find('img[hao-setimg]').length > 0){
+								haoEditor.find(".toolbar .setImg .cancel").click();
+							}else{
+								setImage();
+								$(this).next("div").slideToggle("fast");
+							}
 						break;
 					default: 
-						cammandOne($(this),command);
+							command = vars[command];
+							operation(command);
 						break;
 				}
 			});
 
+			//设置链接确定按钮
 			haoEditor.find(".toolbar .setLink .confirm").click(function(){
 				var command = $(this).parents(".toolBox").prev("a").attr("class");
 				var href = $(this).parent(".toolbuttons").prev("input");
 				$("a[hao-setlink]").attr("href",href.val()).removeAttr("hao-setlink");
 				href.val("http://");
 			});
+
+			//设置链接取消按钮
 			haoEditor.find(".toolbar .setLink .cancel").click(function(){
 				$(this).parent(".toolbuttons").prev("input").val("http://");
 				var val = $("a[hao-setlink]").html();
 				$("a[hao-setlink]").replaceWith(val);
+			});
+
+			//设置图片确定按钮
+			haoEditor.find(".toolbar .setImg .confirm").click(function() {
+				var command = $(this).parents(".toolBox").prev("a").attr("class");
+				var src = $(this).parent(".toolbuttons").prev("input");
+				$("img[hao-setimg]").attr("src",src.val()).removeAttr("hao-setimg");
+				src.val("");
+			});
+
+			//设置图片取消按钮
+			haoEditor.find(".toolbar .setImg .cancel").click(function(){
+				$(this).parent(".toolbuttons").prev("input").val("");
+				var val = $("img[hao-setimg]").html();
+				$("img[hao-setimg]").replaceWith(val);
 			});
 
 			haoEditor.find(".toolbar .toolbuttons input").click(function() {
@@ -121,13 +157,6 @@
 			operation(command);
 		}
 
-		// 有二参数的指令
-		function cammandTwo(obj,command){
-			command = vars[command];
-			var secondParam = obj.parent(".toolbuttons").prev("input").val();
-			operation(command,secondParam);
-		}
-
 		// 执行命令
 		function operation(command,secondParam){
 			document.execCommand(command, false, secondParam);
@@ -138,6 +167,7 @@
 			var selection = document.getSelection ? document.getSelection() : document.selection;
 			return selection;
 		}
+
 		function setLink(){
 			var selection = getSelection();
 			var range = document.getSelection ? selection.getRangeAt(0) : selection.createRange();
@@ -159,6 +189,17 @@
 			else{
 				var link = "<a hao-setLink>"+content+"</a>"
 				range.pasteHTML(link);
+			}
+		}
+
+		function setImage(){
+			var selection = getSelection();
+			var range = document.getSelection ? selection.getRangeAt(0) : selection.createRange();
+			if(document.getSelection){
+				var content = $("<img hao-setImg>");
+				range.insertNode(content[0]);
+			}else{
+
 			}
 		}
 	}
