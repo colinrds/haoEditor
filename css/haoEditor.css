@@ -1,20 +1,23 @@
-.toolbar{
-	background-color: #f5f5f5;
-}
-.toolbar>div{
-	display: inline-block;
-}
-.toolbar a,
-.toolbar a:hover,
-.toolbar a:focus{
-	color: #333;
-	text-decoration: none;
-	display: inline-block;
-}
 .haoEditor{
 	width: 500px;
 	border: 1px solid #333;
 	border-radius: 5px;
+	overflow: hidden;
+}
+.haoEditor .toolbar{
+	background-color: #f5f5f5;
+	*width: 100%;
+}
+.haoEditor .toolbar>div{
+	display: inline-block;
+	*float:left;
+}
+.haoEditor .toolbar a,
+.haoEditor .toolbar a:hover,
+.haoEditor .toolbar a:focus{
+	color: #333;
+	text-decoration: none;
+	display: inline-block;
 }
 .haoEditor textarea { display: none; }
 .haoEditor div[contenteditable="true"]:focus{
@@ -34,29 +37,29 @@
 	position: relative;
 	width: 20px;
 	height: 20px;
-	margin: 0px 15px;
+	margin: 0px 10px;
 }
 .toolbar>div>a{
 	background-image:url('../haoEditor.png');
 	width: 100%;
 	height: 100%;
 }
-.toolbar .toolBox { 
+.haoEditor .toolbar .toolBox { 
 	display: none;
 	position: absolute;
 	left: 0;
     top: 23px;
 }
-.toolbar .toolbuttons{ text-align:center; }
-.toolbar .toolbuttons input { margin: 5px 10px; }
-.toolbar .hao_formats>a{
+.haoEditor .toolbar .toolbuttons{ text-align:center; }
+.haoEditor .toolbar .toolbuttons input { margin: 5px 10px; }
+.haoEditor .toolbar .hao_formats>a{
 	display:block;
 	cursor: pointer;
 }
-.toolbar .hao_formats>a:hover{
+.haoEditor .toolbar .hao_formats>a:hover{
 	background-color: #999;
 }
-.toolbar .avtive>div{
+.haoEditor .toolbar .avtive>div{
 	display: block;
 }
 .haoEditor a[hao-setlink]{
@@ -67,11 +70,23 @@
 	background-color: transparent;
 	color: #338FFF;
 }
+.haoEditor .setLink{
+	border: 1px solid #999;
+	border-radius: 5px;
+	padding: 5px;
+	background-color: #fff;
+}
 .haoEditor .bold{
 	background-position: -45px 0;
 }
 .haoEditor .italic{
 	background-position: -67px 0;
+}
+.haoEditor .indent{
+	background-position: -220px 0;
+}
+.haoEditor .outdent{
+	background-position: -199px 0;
 }
 .haoEditor .text_left{
 	background-position: -243px 0;
@@ -82,11 +97,22 @@
 .haoEditor .text_center{
 	background-position: -264px 0;
 }
+.haoEditor .list{
+	background-position: -132px 0;
+}
+.haoEditor .order{
+	background-position: -110px 0;
+}
 .haoEditor .add_link{
 	background-position: -330px 0;
 }
 .haoEditor .un_link{
 	background-position: -353px 0;
+}
+.haoEditor .add_img{
+	background-image:url('../add_img.png');
+	background-repeat: no-repeat;
+    background-position: 2px;
 }
 .haoEditor .undo{
 	background-position: -374px 0;

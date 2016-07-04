@@ -4,26 +4,36 @@
 		var vars = {
 			bold:"Bold",
 			italic:"Italic",
+			add_link:"CreateLink",
+			un_link:"Unlink",
+			add_img:"",
+			indent:"Indent",
+			outdent:"Outdent",
 			text_left:"JustifyLeft",
 			text_center:"JustifyCenter",
 			text_right:"JustifyRight",
+			list:"InsertUnorderedList",
+			order:"InsertOrderedList",
 			font_size:"FontSize",
 			font_color:"ForeColor",
-			add_link:"CreateLink",
-			un_link:"Unlink",
 			undo:"Undo"
 		}
 		
 		var support = $.extend({
 			bold:true,
 			italic:true,
+			add_link:true,
+			un_link:true,
+			add_img:true,
+			indent:true,
+			outdent:true,
 			text_left:true,
 			text_center:true,
 			text_right:true,
+			list:true,
+			order:true,
 			font_size:false,
 			font_color:false,
-			add_link:true,
-			un_link:true,
 			undo:true
 		},options);
 		var fontSize = [["Size1","1"],["Size2","2"],["Size3","3"],["Size4","4"],["Size4","4"],["Size5","5"],["Size6","6"],["Size7","7"]];
