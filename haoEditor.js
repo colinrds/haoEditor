@@ -2,29 +2,30 @@
 	$.fn.haoEditor = function(options){
 		
 		var vars = {
-			bold:["Bold","B"],
-			italic:["Italic","I"],
-			text_left:["JustifyLeft","left"],
-			text_right:["JustifyRight","right"],
-			text_center:["JustifyCenter","center"],
-			font_size:["FontSize","size"],
-			font_color:["ForeColor","color"],
-			add_link:["CreateLink","link"],
-			undo:["Undo","cancel"]
+			bold:"Bold",
+			italic:"Italic",
+			text_left:"JustifyLeft",
+			text_center:"JustifyCenter",
+			text_right:"JustifyRight",
+			font_size:"FontSize",
+			font_color:"ForeColor",
+			add_link:"CreateLink",
+			un_link:"Unlink",
+			undo:"Undo"
 		}
 		
 		var support = $.extend({
 			bold:true,
 			italic:true,
 			text_left:true,
-			text_right:true,
 			text_center:true,
+			text_right:true,
 			font_size:false,
 			font_color:false,
 			add_link:true,
+			un_link:true,
 			undo:true
 		},options);
-
 		var fontSize = [["Size1","1"],["Size2","2"],["Size3","3"],["Size4","4"],["Size4","4"],["Size5","5"],["Size6","6"],["Size7","7"]];
 		this.wrap('<div class="haoEditor"></div>');
 		var haoEditor = this.parents(".haoEditor");
@@ -41,7 +42,7 @@
 			haoEditor.prepend(toolbar);
 			$.each(support,function(key, row) {
 				if(row == true){
-					var tool_div = $("<div><a href='javascript:void(0);' class="+ key +">"+ vars[key][1] +"</a></div>")
+					var tool_div = $("<div><a href='javascript:void(0);' class="+ key +"></a></div>")
 					switch (key) {
 						case "font_size":
 							var font_div = $("<div class='toolBox'></div>");
@@ -65,17 +66,20 @@
 		function setEditArea(){
 			haoEditor.append("<div contenteditable='true'></div>")
 		}
-
 		
 		function bindEvent(){
-			$(".haoEditor .toolbar>div>a").click(function(){
+			haoEditor.find(".toolbar>div>a").click(function(){
 				var command = $(this).attr("class");
 				switch (command) {
 					case "font_size":
 						$(this).next("div").slideToggle("fast");
 						break;
 					case "add_link":
-						setLink();
+						// setLink();
+						if(setLink() == false){
+							alert("未选中内容");
+							return false;
+						}
 						$(this).next("div").slideToggle("fast");
 						break;
 					default: 
@@ -84,69 +88,66 @@
 				}
 			});
 
-			$(".haoEditor .toolbar .setLink .confirm").click(function(){
+			haoEditor.find(".toolbar .setLink .confirm").click(function(){
 				var command = $(this).parents(".toolBox").prev("a").attr("class");
 				var href = $(this).parent(".toolbuttons").prev("input");
 				$("a[hao-setlink]").attr("href",href.val()).removeAttr("hao-setlink");
 				href.val("http://");
 			});
-			$(".haoEditor .toolbar .setLink .cancel").click(function(){
+			haoEditor.find(".toolbar .setLink .cancel").click(function(){
 				$(this).parent(".toolbuttons").prev("input").val("http://");
 				var val = $("a[hao-setlink]").html();
 				$("a[hao-setlink]").replaceWith(val);
 			});
 
-			$(".haoEditor .toolbar .toolbuttons input").click(function() {
+			haoEditor.find(".toolbar .toolbuttons input").click(function() {
 				$(this).parents(".toolBox").slideUp("fast");
 			});
 		}
 
 		// 无需第二参数的指令
 		function cammandOne(obj,command){
-			command = vars[command][0];
+			command = vars[command];
 			operation(command);
 		}
 
 		// 有二参数的指令
 		function cammandTwo(obj,command){
-			command = vars[command][0];
+			command = vars[command];
 			var secondParam = obj.parent(".toolbuttons").prev("input").val();
 			operation(command,secondParam);
 		}
+
+		// 执行命令
 		function operation(command,secondParam){
 			document.execCommand(command, false, secondParam);
 		}
 
 		// 获得选中对象
 		function getSelection(){
-			var selection = "";
-			// Chrome
-			if(document.getSelection){
-				selection = document.getSelection();
-			}
-			//IE
-			else{
-				selection = document.selection;
-			}
-			
+			var selection = document.getSelection ? document.getSelection() : document.selection;
 			return selection;
 		}
 		function setLink(){
-			var selction = getSelection();
-			// Chrome
+			var selection = getSelection();
+			var range = document.getSelection ? selection.getRangeAt(0) : selection.createRange();
 			if(document.getSelection){
-				var range = selction.getRangeAt(0);
-				var content = range.extractContents();
+				if(range.toString() == ""){
+					return false;
+				}
+			}else{
+				if(range.htmlText == ""){
+					return false;
+				}
+			}
+			var content = document.getSelection ? range.extractContents() : range.htmlText;
+			if(document.getSelection){
 				var link = $("<a hao-setLink></a>");
 				link.append(content);
 				range.insertNode(link[0]);
 			}
-			//IE
 			else{
-				var range = selection.createRange();
-				var content = range.htmlText;
-				var link = $("<a hao-setLink></a>");
-				link.append(content);
+				var link = "<a hao-setLink>"+content+"</a>"
 				range.pasteHTML(link);
 			}
 		}
