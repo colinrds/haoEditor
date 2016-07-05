@@ -52,7 +52,7 @@
 			var toolbar = $("<div class='toolbar'></div>");
 			haoEditor.prepend(toolbar);
 			$.each(support,function(key, row) {
-				if(row == true){
+				if(row){
 					var tool_div = $("<div><a href='javascript:void(0);' class="+ key +"></a></div>")
 					switch (key) {
 						case "font_size":
@@ -69,10 +69,14 @@
 								tool_div.append(link_div);
 							break;
 						case "add_img":
+							if(typeof(support[key]) == "boolean"){
 								var img_div = $("<div class='toolBox setImg'></div>");
 								img_div.append("<input type='text' class='data' placeholder='请输入图片地址''>");
 								img_div.append("<div class='toolbuttons'><input class='confirm' type='button' value='确定'><input class='cancel' type='button' value='取消'></div>");
 								tool_div.append(img_div);
+							}else{
+								
+							}
 					}
 					toolbar.append(tool_div);
 				}
@@ -224,7 +228,13 @@
 				width: width,
 				height: height,
 				padding: padding
-			}).val(content);
+			});
+			if(area.is(':hidden')){
+				var new_content = text_area.val();
+				area.html(new_content);
+			}else{
+				text_area.val(content);
+			}
 			text_area.toggle();
 			area.toggle();
 		}
