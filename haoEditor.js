@@ -34,7 +34,8 @@
 			order:true,
 			font_size:false,
 			font_color:false,
-			undo:true
+			undo:true,
+			textarea:true
 		},options);
 		var fontSize = [["Size1","1"],["Size2","2"],["Size3","3"],["Size4","4"],["Size4","4"],["Size5","5"],["Size6","6"],["Size7","7"]];
 		this.wrap('<div class="haoEditor"></div>');
@@ -93,11 +94,11 @@
 							if(haoEditor.find('a[hao-setlink]').length > 0){
 								haoEditor.find(".toolbar .setLink .cancel").click();
 							}else{
-								$(this).next("div").slideToggle("fast");
 								if(setLink() == false){
 									alert("未选中内容");
 									return false;
 								}
+								$(this).next("div").slideToggle("fast");
 							}
 
 						break;
@@ -109,8 +110,12 @@
 								$(this).next("div").slideToggle("fast");
 							}
 						break;
+					case "textarea":
+							showContent();
+						break;
 					default: 
 							command = vars[command];
+							if(!command) return false;
 							operation(command);
 						break;
 				}
@@ -151,6 +156,7 @@
 			});
 		}
 
+		area = haoEditor.find("div[contenteditable='true']");
 		// 无需第二参数的指令
 		function cammandOne(obj,command){
 			command = vars[command];
@@ -170,6 +176,7 @@
 
 		function setLink(){
 			var selection = getSelection();
+			if(selection.type == "None") return false;
 			var range = document.getSelection ? selection.getRangeAt(0) : selection.createRange();
 			if(document.getSelection){
 				if(range.toString() == ""){
@@ -193,6 +200,7 @@
 		}
 
 		function setImage(){
+			area.focus();
 			var selection = getSelection();
 			var range = document.getSelection ? selection.getRangeAt(0) : selection.createRange();
 			if(document.getSelection){
@@ -201,6 +209,24 @@
 			}else{
 
 			}
+		}
+		
+		function showContent(){
+			var padding = area.css("padding");
+			var height = area.height();
+			var width = area.width();
+			var content = area.html();
+			if(haoEditor.find('textarea').length == 0){
+				haoEditor.append($("<textarea>"));
+			}
+			var text_area = haoEditor.find('textarea');
+			text_area.css({
+				width: width,
+				height: height,
+				padding: padding
+			}).val(content);
+			text_area.toggle();
+			area.toggle();
 		}
 	}
 })(jQuery);
