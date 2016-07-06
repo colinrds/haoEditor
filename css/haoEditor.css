@@ -1,5 +1,5 @@
 .haoEditor{
-	width: 500px;
+	width: 525px;
 	border: 1px solid #333;
 	border-radius: 5px;
 	overflow: hidden;
@@ -82,6 +82,7 @@
 }
 .haoEditor .bold{ background-position: -43px 2px; }
 .haoEditor .italic{ background-position: -65px 2px; }
+.haoEditor .underline{ background-position: -86px 2px; }
 .haoEditor .indent{ background-position: -218px 2px; }
 .haoEditor .outdent{ background-position: -196px 2px; }
 .haoEditor .text_left{ background-position: -241px 2px; }

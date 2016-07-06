@@ -4,6 +4,7 @@
 		var vars = {
 			bold:"Bold",
 			italic:"Italic",
+			underline:"Underline",
 			add_link:"CreateLink",
 			un_link:"Unlink",
 			add_img:"",
@@ -22,6 +23,7 @@
 		var support = $.extend({
 			bold:true,
 			italic:true,
+			underline:true,
 			add_link:true,
 			un_link:true,
 			add_img:true,
