@@ -14,9 +14,11 @@ var browser={
 			webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
 		};
 	}(),
-	language:(navigator.browserLanguage || navigator.language)
+	language:(navigator.browserLanguage || navigator.language).toLowerCase();
 }
 
+
+//
 function to_top(){
 
 }
@@ -32,24 +34,42 @@ function handleFiles(files) {
         }else if(/image\/\w+/.test(file.type)){
             reader.onload=function(e){
             	var $this = this;
-                $.post(urlRoot+'index.php?do=common&act=editUserImg', {avatar: e.target.result,uid:uid,accessToken:accessToken},function(data){
-                	if(data["error"] == 0){
-	                 	$(".upload-pic").attr("src",$this.result);
-	                 		layer.open({
-							    content: '图片上传成功',
-							    style: 'background-color:#FFF; color:#425580; border:none;',
-							    time: 1
-							});
-	                 }else{
-	                 	layer.open({
-							    content: data["content"],
-							    style: 'background-color:#FFF; color:#425580; border:none;',
-							    time: 1
-							});
-	                 }
+                $.post(urlRoot+'index.php?do=common&act=editUserImg', {avatar: e.target.result,uid:uid,accessToken:accessToken},function(data)
+	                 $(".upload-pic").attr("src",$this.result);
 	            },'json');  
             }
             reader.readAsDataURL(file);
         }
     }
 }
+
+
+// 格式化时间
+function formatDate(format,time){
+	var date = time ? new Date(time) : new Date();
+	var ff = "";
+	var week = ["日","一","二","三","四","五","六"];
+	if(format){
+		ff = format;
+		ff = ff.replace("yyyy", date.getFullYear());
+		ff = ff.replace("MM", returnTime(date.getMonth() + 1));
+		ff = ff.replace("dd", returnTime(date.getDate()));
+		ff = ff.replace("hh", returnTime(date.getHours()));
+		ff = ff.replace("mm", returnTime(date.getMinutes()));
+		ff = ff.replace("ss", returnTime(date.getSeconds()));
+		ff = ff.replace("ww", '周' + week[date.getDay()]);
+		ff = ff.replace("WW", '星期' + week[date.getDay()]);
+	}
+	function returnTime(date){
+		return date < 10 ? "0" + date :　date;
+	}
+	return ff;
+}
+
+
+//获得地址栏参数
+function getQueryString(name) { 
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+	var r = window.location.search.substr(1).match(reg); 
+	if (r != null) return unescape(r[2]); return null; 
+} 
