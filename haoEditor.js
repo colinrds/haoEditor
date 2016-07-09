@@ -163,11 +163,6 @@
 		}
 
 		area = haoEditor.find("div[contenteditable='true']");
-		// 无需第二参数的指令
-		function cammandOne(obj,command){
-			command = vars[command];
-			operation(command);
-		}
 
 		// 执行命令
 		function operation(command,secondParam){
