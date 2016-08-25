@@ -1,6 +1,5 @@
 (function($) {
 	$.fn.haoEditor = function(options) {
-
 		var vars = {
 			bold: "Bold",
 			italic: "Italic",
@@ -52,7 +51,6 @@
 		this.wrap('<div class="haoEditor"></div>');
 		var haoEditor = this.parents(".haoEditor");
 		init();
-
 		function init() {
 			setToolBar();
 			setEditArea();
@@ -86,7 +84,7 @@
 								img_div.append("<div class='toolbuttons'><input class='confirm' type='button' value='确定'><input class='cancel' type='button' value='取消'></div>");
 								tool_div.append(img_div);
 							} else {
-
+								var img_div = $("<input type='file' name='upload' onchange=''>");
 							}
 					}
 					toolbar.append(tool_div);
@@ -140,7 +138,7 @@
 			haoEditor.find(".toolbar .setLink .confirm").click(function() {
 				var command = $(this).parents(".toolBox").prev("a").attr("class");
 				var href = $(this).parent(".toolbuttons").prev("input");
-				$("a[hao-setlink]").attr("href", href.val()).removeAttr("hao-setlink");
+				haoEditor.find("a[hao-setlink]").attr("href", href.val()).removeAttr("hao-setlink");
 				href.val("http://");
 			});
 
@@ -148,26 +146,26 @@
 			haoEditor.find(".toolbar .setLink .cancel").click(function() {
 				$(this).parent(".toolbuttons").prev("input").val("http://");
 				var val = $("a[hao-setlink]").html();
-				$("a[hao-setlink]").replaceWith(val);
+				haoEditor.find("a[hao-setlink]").replaceWith(val);
 			});
 
 			//设置图片确定按钮
 			haoEditor.find(".toolbar .setImg .confirm").click(function() {
 				var command = $(this).parents(".toolBox").prev("a").attr("class");
 				var src = $(this).parent(".toolbuttons").prev("input");
-				$("img[hao-setimg]").attr("src", src.val()).removeAttr("hao-setimg");
+				haoEditor.find("img[hao-setimg]").attr("src", src.val()).removeAttr("hao-setimg");
 				src.val("");
 			});
 
 			//设置图片取消按钮
 			haoEditor.find(".toolbar .setImg .cancel").click(function() {
-				$(this).parent(".toolbuttons").prev("input").val("");
+				this.parent(".toolbuttons").prev("input").val("");
 				var val = $("img[hao-setimg]").html();
-				$("img[hao-setimg]").replaceWith(val);
+				haoEditor.find("img[hao-setimg]").replaceWith(val);
 			});
 
 			haoEditor.find(".toolbar .toolbuttons input").click(function() {
-				$(this).parents(".toolBox").slideUp("fast");
+				this.parents(".toolBox").slideUp("fast");
 			});
 		}
 
@@ -242,6 +240,27 @@
 			}
 			text_area.toggle();
 			area.toggle();
+		}
+
+		//上传图片
+		function uploadImg(files){
+			setImage();
+			var $this = this;
+			if (files.length) {
+	    		var file = files[0];
+	        	var reader = new FileReader();
+		        if (/text\/\w+/.test(file.type)) {
+		            reader.readAsText(file);
+		        }else if(/image\/\w+/.test(file.type)){
+		            var $this = this;
+		            reader.onload=function(e){
+		            	$.post(support["add_img"],{img:e.target.result},function(){
+		            		$()
+		            	});
+		            }
+		            reader.readAsDataURL(file);
+		        }
+			}
 		}
 	}
 })(jQuery);
