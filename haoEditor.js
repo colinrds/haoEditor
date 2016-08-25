@@ -82,7 +82,11 @@
 								img_div.append("<div class='toolbuttons'><input class='confirm' type='button' value='确定'><input class='cancel' type='button' value='取消'></div>");
 								tool_div.append(img_div);
 							} else {
-								var img_div = $("<input type='file' name='upload' onchange=''>");
+								var img_div = $("<input type='file' name='upload' style='display:none;'>");
+								tool_div.find('a').click(function(){
+									img_div.click();
+								})
+								tool_div.append(img_div);
 							}
 					}
 					toolbar.append(tool_div);
@@ -114,6 +118,7 @@
 						if (haoEditor.find('img[hao-setimg]').length > 0) {
 							haoEditor.find(".toolbar .setImg .cancel").click();
 						} else {
+							if(haoEditor.find('input[name="upload"]').size() > 0) return false;
 							setImage();
 							$(this).next("div").slideToggle("fast");
 						}
@@ -145,17 +150,23 @@
 			haoEditor.find(".toolbar .setImg .confirm").click(function() {
 				var command = $(this).parents(".toolBox").prev("a").attr("class");
 				var src = $(this).parent(".toolbuttons").prev("input");
+				if(src.val() == ""){
+					haoEditor.find("img[hao-setimg]").replaceWith("");
+					return false;
+				}
 				haoEditor.find("img[hao-setimg]").attr("src", src.val()).removeAttr("hao-setimg");
 				src.val("");
 			});
 			//设置图片取消按钮
 			haoEditor.find(".toolbar .setImg .cancel").click(function() {
-				this.parent(".toolbuttons").prev("input").val("");
-				var val = $("img[hao-setimg]").html();
-				haoEditor.find("img[hao-setimg]").replaceWith(val);
+				$(this).parent(".toolbuttons").prev("input").val("");
+				haoEditor.find("img[hao-setimg]").replaceWith("");
 			});
 			haoEditor.find(".toolbar .toolbuttons input").click(function() {
-				this.parents(".toolBox").slideUp("fast");
+				$(this).parents(".toolBox").slideUp("fast");
+			});
+			haoEditor.find('input[name="upload"]').change(function() {
+				uploadImg(this.files);
 			});
 		}
 		//编辑区域
@@ -200,7 +211,8 @@
 				var content = $("<img hao-setImg>");
 				range.insertNode(content[0]);
 			} else {
-
+				var img = "<img hao-setImg>";
+				range.pasteHTML(img);
 			}
 		}
 		function showContent() {
@@ -229,22 +241,21 @@
 
 		//上传图片
 		function uploadImg(files){
-			setImage();
 			var $this = this;
 			if (files.length) {
 	    		var file = files[0];
 	        	var reader = new FileReader();
-		        if (/text\/\w+/.test(file.type)) {
-		            reader.readAsText(file);
-		        }else if(/image\/\w+/.test(file.type)){
-		            var $this = this;
+		        if(/image\/\w+/.test(file.type)){
+					setImage();
 		            reader.onload=function(e){
 		            	$.post(support["add_img"],{img:e.target.result},function(){
-		            		$()
+		            		haoEditor.find("img[hao-setimg]").attr("src", e.target.result).removeAttr("hao-setimg");
 		            	});
 		            }
 		            reader.readAsDataURL(file);
-		        }
+		        }else{
+					alert('请选择图片文件')
+				}
 			}
 		}
 	}
