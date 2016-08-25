@@ -1,6 +1,5 @@
 (function($) {
 	$.fn.haoEditor = function(options) {
-
 		var vars = {
 			bold: "Bold",
 			italic: "Italic",
@@ -19,7 +18,6 @@
 			font_color: "ForeColor",
 			undo: "Undo"
 		}
-
 		var support = $.extend({
 			bold: true,
 			italic: true,
@@ -52,13 +50,11 @@
 		this.wrap('<div class="haoEditor"></div>');
 		var haoEditor = this.parents(".haoEditor");
 		init();
-
 		function init() {
 			setToolBar();
 			setEditArea();
 			bindEvent();
 		};
-
 		function setToolBar() {
 			var toolbar = $("<div class='toolbar'></div>");
 			haoEditor.prepend(toolbar);
@@ -93,11 +89,9 @@
 				}
 			});
 		};
-
 		function setEditArea() {
 			haoEditor.append("<div contenteditable='true'></div>")
 		}
-
 		function bindEvent() {
 			haoEditor.find(".toolbar>div>a").click(function() {
 				var command = $(this).attr("class");
@@ -115,7 +109,6 @@
 							}
 							$(this).next("div").slideToggle("fast");
 						}
-
 						break;
 					case "add_img":
 						if (haoEditor.find('img[hao-setimg]').length > 0) {
@@ -135,7 +128,6 @@
 						break;
 				}
 			});
-
 			//设置链接确定按钮
 			haoEditor.find(".toolbar .setLink .confirm").click(function() {
 				var command = $(this).parents(".toolBox").prev("a").attr("class");
@@ -143,14 +135,12 @@
 				$("a[hao-setlink]").attr("href", href.val()).removeAttr("hao-setlink");
 				href.val("http://");
 			});
-
 			//设置链接取消按钮
 			haoEditor.find(".toolbar .setLink .cancel").click(function() {
 				$(this).parent(".toolbuttons").prev("input").val("http://");
 				var val = $("a[hao-setlink]").html();
 				$("a[hao-setlink]").replaceWith(val);
 			});
-
 			//设置图片确定按钮
 			haoEditor.find(".toolbar .setImg .confirm").click(function() {
 				var command = $(this).parents(".toolBox").prev("a").attr("class");
@@ -158,32 +148,27 @@
 				$("img[hao-setimg]").attr("src", src.val()).removeAttr("hao-setimg");
 				src.val("");
 			});
-
 			//设置图片取消按钮
 			haoEditor.find(".toolbar .setImg .cancel").click(function() {
 				$(this).parent(".toolbuttons").prev("input").val("");
 				var val = $("img[hao-setimg]").html();
 				$("img[hao-setimg]").replaceWith(val);
 			});
-
 			haoEditor.find(".toolbar .toolbuttons input").click(function() {
 				$(this).parents(".toolBox").slideUp("fast");
 			});
 		}
-
-		area = haoEditor.find("div[contenteditable='true']");
-
+		//编辑区域
+		var area = haoEditor.find("div[contenteditable='true']");
 		// 执行命令
 		function operation(command, secondParam) {
 			document.execCommand(command, false, secondParam);
 		}
-
 		// 获得选中对象
 		function getSelection() {
 			var selection = document.getSelection ? document.getSelection() : document.selection;
 			return selection;
 		}
-
 		function setLink() {
 			var selection = getSelection();
 			if (selection.type == "None") return false;
@@ -207,7 +192,6 @@
 				range.pasteHTML(link);
 			}
 		}
-
 		function setImage() {
 			area.focus();
 			var selection = getSelection();
@@ -219,7 +203,6 @@
 
 			}
 		}
-
 		function showContent() {
 			var padding = area.css("padding");
 			var height = area.height();
@@ -243,5 +226,8 @@
 			text_area.toggle();
 			area.toggle();
 		}
+	}
+	$.fn.getContent = function(){
+		return this.parents('.haoEditor').find("div[contenteditable='true']").html();
 	}
 })(jQuery);

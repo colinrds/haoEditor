@@ -2,7 +2,7 @@
 ===
 ## 1.说明
 ```
-基于jQuery，兼容IE7+、Chrome、Firefox等主流浏览器
+基于jQuery，兼容IE8+、Chrome、Firefox等主流浏览器
 ```
 ## 2.使用
 ```
@@ -63,4 +63,6 @@ $("#test-hao").haoEditor({
 });
 
 通过配置 textarea:true 可以使用代码进行文本编辑
+
+通过$("#test-hao").getContent()获取内容
 ```
