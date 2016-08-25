@@ -58,11 +58,11 @@ $("#test-hao").haoEditor({
 	order:true,
 	//回退操作
 	undo:true,
-	//是否能显示源代码
+	//是否能使用代码进行文本编辑
 	textarea:true
 });
 
 通过配置 textarea:true 可以使用代码进行文本编辑
 
-通过$("#test-hao").getContent()获取内容
+通过$("#test-hao").getContent()获取文本内容
 ```
