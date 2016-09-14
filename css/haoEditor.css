@@ -1,0 +1,105 @@
+.haoEditor{
+	width: 545px;
+	border: 1px solid #333;
+	border-radius: 5px;
+	overflow: hidden;
+}
+.haoEditor .toolbar{
+	background-color: #f5f5f5;
+	*width: 100%;
+	padding: 5px 10px;
+}
+.haoEditor .toolbar>div{
+	display: inline-block;
+	*float:left;
+}
+.haoEditor .toolbar a,
+.haoEditor .toolbar a:hover,
+.haoEditor .toolbar a:focus{
+	color: #333;
+	text-decoration: none;
+	display: inline-block;
+}
+.haoEditor .toolbar>div:hover{
+	background-color:#eee;
+}
+.haoEditor textarea{ 
+	display: none;
+	resize: none;
+	border: 0;
+	border-top: 1px solid #999;
+	font-size: 20px;
+}
+.haoEditor textarea:focus{
+	outline: none;
+}
+.haoEditor div[contenteditable="true"]:focus{
+	box-shadow: none;
+	outline: none;
+}
+.haoEditor div[contenteditable="true"]{
+	min-height: 200px;
+	border-top: 1px solid #999;
+	padding: 10px;
+	overflow-y:auto;
+}
+.haoEditor .toolbar{
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+.haoEditor .toolbar>div{
+	position: relative;
+	width: 25px;
+	height: 100%;
+	padding: 0px 5px;
+}
+.haoEditor .toolbar>div>a{
+	background-image:url('../haoEditor.png');
+	width: 25px;
+	height: 25px;
+}
+.haoEditor .toolbar .toolBox { 
+	display: none;
+	position: absolute;
+	left: 0;
+    top: 23px;
+	border: 1px solid #999;
+	border-radius: 5px;
+	padding: 5px;
+	background-color: #fff;
+}
+.haoEditor .toolbar .toolbuttons{ text-align:center; }
+.haoEditor .toolbar .toolbuttons input { margin: 5px 10px; }
+.haoEditor .toolbar .hao_formats>a{
+	display:block;
+	cursor: pointer;
+}
+.haoEditor .toolbar .hao_formats>a:hover{ background-color: #999; }
+.haoEditor .toolbar .avtive>div{ display: block; }
+.haoEditor a[hao-setlink]{
+	background-color: #338FFF;
+	color: #fff;
+}
+.haoEditor a[hao-setlink][href]{
+	background-color: transparent;
+	color: #338FFF;
+}
+.haoEditor .bold{ background-position: -43px 2px; }
+.haoEditor .italic{ background-position: -65px 2px; }
+.haoEditor .underline{ background-position: -86px 2px; }
+.haoEditor .indent{ background-position: -218px 2px; }
+.haoEditor .outdent{ background-position: -196px 2px; }
+.haoEditor .text_left{ background-position: -241px 2px; }
+.haoEditor .text_right{ background-position: -284px 2px; }
+.haoEditor .text_center{ background-position: -262px 2px; }
+.haoEditor .list{ background-position: -134px 2px; }
+.haoEditor .order{ background-position: -109px 2px; }
+.haoEditor .add_link{ background-position: -328px 0; }
+.haoEditor .un_link{ background-position: -351px 0; }
+.haoEditor .toolbar .add_img{
+	background-image:url('../add_img.png');
+	background-repeat: no-repeat;
+    background-position: 4px;
+}
+.haoEditor .undo{ background-position: -373px 2px; }
+.haoEditor .textarea{ background-position: -415px 2px; }
