@@ -3,7 +3,7 @@
 ## 1.说明
 ```
 基于jQuery，兼容IE8+、Chrome、Firefox等主流浏览器
-[demo]<a href="https://junhaotong.github.io/haoEditor/" target="_blank">demo地址</a>
+[demo](https://junhaotong.github.io/haoEditor/)
 ```
 ## 2.使用
 ```
