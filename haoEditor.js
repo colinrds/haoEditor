@@ -78,7 +78,7 @@
 						case "add_img":
 							if (typeof(support[key]) == "boolean") {
 								var img_div = $("<div class='toolBox setImg'></div>");
-								img_div.append("<input type='text' class='data' placeholder='请输入图片地址''>");
+								img_div.append("<input type='text' class='data' placeholder='请输入图片地址'>");
 								img_div.append("<div class='toolbuttons'><input class='confirm' type='button' value='确定'><input class='cancel' type='button' value='取消'></div>");
 								tool_div.append(img_div);
 							} else {
